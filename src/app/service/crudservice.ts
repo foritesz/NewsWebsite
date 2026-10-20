@@ -18,6 +18,10 @@ export class ArticleService {
     return this.articles;
   }
 
+  getById(id: number): Article | undefined {
+    return this.articles.find(article => article.id === id);
+  }
+
   create(title: string): void {
     const newArticle: Article = {
       id: Date.now(),

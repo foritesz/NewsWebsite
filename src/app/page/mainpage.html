@@ -7,7 +7,7 @@
 
   <main class="leadarticle" aria-label="Kiemelt hírek">
     @for (article of mainArticles; track article.id) {
-      <article class="lead-story">
+      <a class="lead-story news-link" [routerLink]="['/news', article.id]">
         <div class="leadarticleimage">
           <img [src]="article.image" [alt]="article.title" />
         </div>
@@ -15,33 +15,18 @@
           <h1>{{ article.title }}</h1>
         </div>
         <div class="leadshort">{{ article.introduction }}</div>
-      </article>
+      </a>
     } @empty {
       <p class="empty-state">Jelenleg nincs kiemelt hír.</p>
     }
   </main>
 
-  <section class="toparticles" aria-labelledby="popular-title">
-    <p id="popular-title" class="toparticles-heading">Legnépszerűbb cikkek</p>
-    @for (article of mostPopularNews; track article.id) {
-      <div class="toparticle-row">
-        <div>
-          <img [src]="article.image" [alt]="article.title" />
-        </div>
-        <div class="toparticle-content">
-          <h3>{{ article.title }}</h3>
-          <p class="toparticle-intro">{{ article.introduction }}</p>
-        </div>
-      </div>
-    } @empty {
-      <p class="empty-state">Nincs megjeleníthető népszerű cikk.</p>
-    }
-  </section>
+  <app-popularnews />
 
   <section class="newarticles" aria-labelledby="fresh-title">
     <p id="fresh-title" class="weeklyheader">Friss hírek</p>
     @for (article of freshNews; track article.id) {
-      <article class="newarticle1">
+      <a class="newarticle1 news-link" [routerLink]="['/news', article.id]">
         <div class="newarticleimage1">
           <img [src]="article.image" [alt]="article.title" />
         </div>
@@ -49,7 +34,7 @@
           <h2>{{ article.title }}</h2>
         </div>
         <p class="newshort1">{{ article.introduction }}</p>
-      </article>
+      </a>
     } @empty {
       <p class="empty-state">Jelenleg nincs megjeleníthető friss hír.</p>
     }

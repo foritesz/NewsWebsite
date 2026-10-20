@@ -1,0 +1,51 @@
+<div class="article-page">
+  <section class="_socialmedia" aria-label="Közösségi oldalak">
+    <p>Facebook</p><p>Twitter</p><p>Instagram</p>
+  </section>
+
+  @if (article; as currentArticle) {
+    <main class="news-article">
+      <article>
+        <header class="news-header">
+          <span class="news-category">{{ currentArticle.category }}</span>
+          <h1>{{ currentArticle.title }}</h1>
+          <p class="news-lead">{{ currentArticle.introduction }}</p>
+          <div class="news-meta">
+            <span>{{ currentArticle.views }} megtekintés</span>
+            @if (currentArticle.date) {
+              <time [attr.datetime]="currentArticle.date | date: 'yyyy-MM-dd'">
+                {{ currentArticle.date | date: 'yyyy. MMMM d.' }}
+              </time>
+            }
+          </div>
+        </header>
+
+        @if (currentArticle.image) {
+          <figure class="news-hero">
+            <img [src]="currentArticle.image" [alt]="currentArticle.title" />
+            <figcaption>{{ currentArticle.title }}</figcaption>
+          </figure>
+        }
+
+        <div class="news-content">
+          <p>{{ currentArticle.content || currentArticle.introduction }}</p>
+        </div>
+        <footer class="news-footer">
+          <span>Címke:</span>
+          <a [routerLink]="['/category', currentArticle.category]">{{ currentArticle.category }}</a>
+          <a class="back-link" routerLink="/">Vissza a főoldalra</a>
+        </footer>
+      </article>
+    </main>
+  } @else {
+    <main class="news-article">
+      <h1>A cikk nem található</h1>
+      <p>A keresett cikk nem érhető el.</p>
+      <a class="back-link" routerLink="/">Vissza a főoldalra</a>
+    </main>
+  }
+
+  <aside class="popular-sidebar">
+    <app-popularnews />
+  </aside>
+</div>

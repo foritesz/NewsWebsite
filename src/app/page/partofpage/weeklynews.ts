@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Article } from '../../model/article';
 import { SortingService } from '../../service/sortingservice';
 
 @Component({
   selector: 'app-weeklynews',
-  templateUrl: './weeklynews.html'
+  imports: [RouterLink],
+  templateUrl: './weeklynews.html',
+  styleUrl: './weeklynews.css',
 })
 export class WeeklyNews {
   readonly articles: Article[];

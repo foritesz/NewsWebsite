@@ -103,24 +103,6 @@
     overflow: hidden;
 }
 
-.news-link {
-    color: inherit;
-    text-decoration: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-/* Egér föléhúzásakor */
-.news-link:hover {
-    background-color: #e8f0fe;
-    color: #174ea6;
-}
-
-/* Kattintás közben */
-.news-link:active {
-    background-color: #c6dafc;
-    color: #0d47a1;
-}
-
 .news-link .toparticle-content {
     flex: 1;
     min-width: 0;
@@ -171,26 +153,26 @@
 .listofarticles {
     grid-area: lead;
     min-width: 0;
-    padding: 18px;
+    padding: 12px;
     border-radius: 6px;
     background: #fff;
 }
 
 .listofarticles > h1 {
-    margin: 0 0 16px;
-    padding-bottom: 10px;
+    margin: 0 0 10px;
+    padding-bottom: 7px;
     border-bottom: 2px solid #d71920;
     font-size: clamp(22px, 2.5vw, 30px);
 }
 
 .category-article {
     display: grid;
-    grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+    grid-template-columns: 240px minmax(0, 1fr);
     align-items: start;
-    gap: 14px;
-    min-height: 100px;
-    margin: 0 0 14px;
-    padding: 0 0 14px;
+    gap: 8px;
+    min-height: 0;
+    margin: 0 0 8px;
+    padding: 0 0 8px;
     border-bottom: 1px solid #eee;
 }
 
@@ -201,20 +183,20 @@
 }
 
 .category-article .newarticleimage1 img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
+    width: 240px;
+    height: 136px;
     object-fit: cover;
     border-radius: 4px;
 }
 
 .category-article-copy h2 {
-    margin: 0 0 7px;
-    font-size: 17px;
-    line-height: 1.3;
+    margin: 0 0 4px;
+    font-size: 14px;
+    line-height: 1.25;
 }
 
 .category-article-copy .article-category {
-    margin: 0 0 5px;
+    margin: 0 0 3px;
     color: #d71920;
     font-size: 11px;
     font-weight: 700;
@@ -222,11 +204,17 @@
 }
 
 .category-article-copy .newshort1 {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     margin: 0;
+    font-size: 11px;
+    line-height: 1.35;
 }
 
 .category-views {
-    margin: 8px 0 0;
+    margin: 5px 0 0;
     color: #777;
     font-size: 11px;
 }
@@ -256,6 +244,18 @@
     max-height: none;
 }
 
+.category-sidebar .popular-article {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.category-sidebar .popular-article:last-child { border-bottom: 0; }
+.category-sidebar .popular-article > div:first-child { flex: 0 0 76px; }
+.category-sidebar .popular-article img { width: 76px; height: 60px; object-fit: cover; border-radius: 4px; }
+
 @media (max-width: 800px) {
     .category-container {
         grid-template-areas:
@@ -269,13 +269,9 @@
 }
 
 @media (max-width: 480px) {
-    .listofarticles { padding: 12px; }
+    .listofarticles { padding: 10px; }
 
-    .category-article {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-
-    .category-article .newarticleimage1 img { max-height: 180px; }
+    .category-article { grid-template-columns: 192px minmax(0, 1fr); }
+    .category-article .newarticleimage1 img { width: 192px; height: 108px; }
 
 }

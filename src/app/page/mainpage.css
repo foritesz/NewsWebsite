@@ -1,0 +1,41 @@
+.toparticles,
+app-popularnews { grid-area: top; min-width: 0; }
+
+.toparticles > .toparticle-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.toparticles > .toparticle-row > div:first-child {
+  width: 76px;
+  min-width: 76px;
+}
+
+.toparticles > .toparticle-row > .toparticle-content {
+  min-width: 0;
+}
+
+.toparticles > .toparticle-row img {
+  display: block;
+  width: 76px;
+  height: 60px;
+  max-width: 76px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.toparticles > .toparticle-row h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.toparticles > .toparticle-row .toparticle-intro {
+  margin: 0;
+  color: #666;
+  font-size: 11px;
+  line-height: 1.35;
+}

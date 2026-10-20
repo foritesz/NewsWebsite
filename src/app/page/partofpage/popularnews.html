@@ -1,0 +1,16 @@
+<section class="toparticles" aria-labelledby="popular-title">
+  <p id="popular-title" class="toparticles-heading">Legnépszerűbb cikkek</p>
+  @for (article of articles; track article.id) {
+    <a class="toparticle-row news-link" [routerLink]="['/news', article.id]">
+      <div class="popular-image">
+        <img [src]="article.image" [alt]="article.title" />
+      </div>
+      <div class="toparticle-content">
+        <h3>{{ article.title }}</h3>
+        <p class="toparticle-intro">{{ article.introduction }}</p>
+      </div>
+    </a>
+  } @empty {
+    <p class="empty-state">Nincs megjeleníthető népszerű cikk.</p>
+  }
+</section>

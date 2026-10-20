@@ -15,8 +15,7 @@ export class SortingService {
   }
   getMostPopularNews(): Article[] {
     const articles = this.articleService.getAll();
-    return articles
-      .filter(article => article.frontpage === false)
+    return [...articles]
       .sort((a, b) => b.views - a.views)
       .slice(0, 5);
   }
