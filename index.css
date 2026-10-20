@@ -1,0 +1,519 @@
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    margin: 0;
+    padding: 24px 16px;
+    background-color: #f1f2f4;
+    color: #222;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Központi tartalom: ne töltse ki a teljes képernyőt */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+    grid-template-areas:
+        "header header"
+        "social social"
+        "lead top"
+        "new weekly"
+        "ads ads";
+    gap: 20px;
+    align-items: start;
+}
+
+/* Üres, jelenleg nem használt elemek */
+.footer,
+.table {
+    display: none;
+}
+
+/* Fejléc */
+.header {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    min-height: 72px;
+    padding: 8px 18px;
+    background: #fff;
+    border-bottom: 2px solid #d71920;
+    border-radius: 6px;
+}
+
+.logo {
+    flex: 0 0 auto;
+}
+
+.logo img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+}
+
+.categories {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+}
+
+.categories .title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.categories .title:hover {
+    color: #d71920;
+}
+
+/* Kereső */
+.searcharea {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex: 0 1 220px;
+}
+
+.searchbar {
+    min-width: 0;
+    flex: 1;
+}
+
+.searchinput {
+    width: 100%;
+    min-width: 0;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.searchicon input {
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 4px;
+    background: #d71920;
+    color: white;
+    cursor: pointer;
+}
+
+/* Közösségi média: keskeny sáv */
+._socialmedia {
+    grid-area: social;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    min-height: 28px;
+    padding: 0 8px;
+}
+
+._socialmedia p {
+    margin: 0;
+    font-size: 12px;
+    color: #555;
+    cursor: pointer;
+}
+
+._socialmedia p:hover {
+    color: #d71920;
+}
+
+/* Főcikk */
+.leadarticle {
+    grid-area: lead;
+    min-width: 0;
+    overflow: hidden;
+    background: white;
+    border-radius: 6px;
+}
+
+.leadarticleimage img {
+    width: 100%;
+    aspect-ratio: 16 / 8;
+    object-fit: cover;
+}
+
+.leadarticletitle {
+    padding: 0 18px;
+}
+
+.leadarticletitle h1 {
+    margin: 16px 0 10px;
+    font-size: clamp(22px, 2.5vw, 30px);
+    line-height: 1.25;
+}
+
+.leadshort {
+    padding: 0 18px 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #555;
+}
+
+/* További hírek */
+.toparticles {
+    grid-area: top;
+    min-width: 0;
+    padding: 16px;
+    background: white;
+    border-radius: 6px;
+}
+
+.toparticles > p,
+.weeklytop > p,
+.weeklyheader {
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d71920;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.toparticles > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 75px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.toparticles > div:last-child {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.toparticles > div > div {
+    min-width: 0;
+    flex: 1;
+}
+
+/* Friss hírek */
+.newarticles {
+    grid-area: new;
+    min-width: 0;
+    padding: 18px;
+    background: white;
+    border-radius: 6px;
+}
+
+.newarticle1,
+.newarticle2,
+.newarticle3 {
+    min-height: 100px;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.newarticletitle1,
+.newarticletitle2,
+.newarticletitle3 {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.newshort1,
+.newshort2,
+.newshort3 {
+    margin-top: 7px;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Heti hírek */
+.weeklytop {
+    grid-area: weekly;
+    min-width: 0;
+    padding: 18px;
+    background: white;
+    border-radius: 6px;
+}
+
+.weeklytop .article1,
+.weeklytop .article2,
+.weeklytop .article3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 75px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.warticleimage1,
+.warticleimage2,
+.warticleimage3 {
+    flex: 0 0 90px;
+    min-height: 60px;
+    border-radius: 4px;
+}
+
+.warticletitle1,
+.warticletitle2,
+.warticletitle3 {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* Hirdetési terület */
+.googleads {
+    grid-area: ads;
+    min-height: 0;
+}
+
+/* Kisebb képernyő */
+@media (max-width: 800px) {
+    body {
+        padding: 12px;
+    }
+
+    .container {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "header"
+            "social"
+            "lead"
+            "top"
+            "new"
+            "weekly"
+            "ads";
+        gap: 14px;
+    }
+
+    .header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .categories {
+        justify-content: flex-start;
+        gap: 10px 14px;
+    }
+
+    .searcharea {
+        flex: 1 1 100%;
+    }
+
+    ._socialmedia {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 8px;
+    }
+
+    .header {
+        padding: 10px;
+    }
+
+    .logo img {
+        width: 42px;
+        height: 42px;
+    }
+
+    .categories .title {
+        font-size: 12px;
+    }
+
+    .leadarticletitle {
+        padding: 0 12px;
+    }
+
+    .leadshort {
+        padding: 0 12px 14px;
+    }
+
+    .toparticles,
+    .newarticles,
+    .weeklytop {
+        padding: 12px;
+    }
+}
+
+```css
+/* Kompaktabb More News panel */
+.toparticles {
+    padding: 12px;
+    align-self: start;
+    overflow: hidden;
+}
+
+.toparticles > p {
+    margin-bottom: 8px;
+    padding-bottom: 7px;
+    font-size: 16px;
+}
+
+/* Egy hír alacsonyabb legyen */
+.toparticles > article {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 0;
+    margin: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.toparticles > article:last-child {
+    border-bottom: 0;
+}
+
+/* Kisebb képek */
+.toparticles > article > div:first-child {
+    flex: 0 0 76px;
+}
+
+.toparticles img {
+    width: 76px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Rövidebb, tömörebb címek */
+.toparticles h3 {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+/* A főcikk magasságához igazítás */
+@media (min-width: 901px) {
+    .toparticles {
+        max-height: 100%;
+    }
+
+    .leadarticle,
+    .toparticles {
+        align-self: start;
+    }
+}
+.toparticles > article {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 0;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+}
+
+.toparticles > article > div:first-child {
+    flex: 0 0 76px;
+}
+
+.toparticles img {
+    display: block;
+    width: 76px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.toparticle-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.toparticle-content h3 {
+    margin: 0 0 4px;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+.toparticle-intro {
+    margin: 0;
+    color: #666;
+    font-size: 11px;
+    line-height: 1.35;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-link {
+    color: inherit;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Egér föléhúzásakor */
+.news-link:hover {
+    background-color: #e8f0fe;
+    color: #174ea6;
+}
+
+/* Kattintás közben */
+.news-link:active {
+    background-color: #c6dafc;
+    color: #0d47a1;
+}
+
+.news-link .toparticle-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.category-link,
+.searchicon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.category-link:hover,
+.searchicon:hover {
+    background-color: #e8f0fe;
+    color: #174ea6;
+}
+
+.category-link:active,
+.searchicon:active {
+    background-color: #c6dafc;
+    color: #0d47a1;
+}
+
+.category-link:focus-visible,
+.searchicon:focus-visible {
+    outline: 2px solid #4285f4;
+    outline-offset: 2px;
+}

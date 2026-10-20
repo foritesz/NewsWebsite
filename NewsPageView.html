@@ -1,0 +1,257 @@
+<html>
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hírportál</title><!--kereset hírek vagy az adott kiválasztott kategória-->
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="categorylist.css">
+</head>
+<body>
+
+<div class="container">
+
+        <!-- HEADER -->
+    <header class="header">
+        <a href="index.html" class="logo-link">
+            <div class="logo">
+                <img src="1.png" alt="Hírportál logó">
+            </div>
+        </a>
+
+        <nav class="categories">
+            <nav class="categories">
+                <a href="NewsCategoryListView.html" class="category-link">
+                    Belföld
+                </a>
+                <a href="NewsCategoryListView.html" class="category-link">
+                    Külföld
+                </a>
+                <a href="NewsCategoryListView.html" class="category-link">
+                    Gazdaság
+                </a>
+
+                <a href="NewsCategoryListView.html" class="category-link">
+                    Tech
+                </a>
+
+                <a href="NewsCategoryListView.html" class="category-link">
+                    Tudomány
+                </a>
+                                <a href="NewsCategoryListView.html" class="category-link">
+                    Sport
+                </a>
+            </nav>
+        </nav>
+
+        <div class="searcharea">
+            <input
+                type="text"
+                class="searchinput"
+                placeholder="Keresés..."
+            >
+
+            <a
+                href="NewsCategoryListView.html"
+                class="searchicon"
+                aria-label="Keresés"
+            >
+                <svg xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </a>
+        </div>
+    </header>
+
+    <!-- SOCIAL MEDIA -->
+    <div class="_socialmedia">
+        <p class="fb">Facebook</p>
+        <p class="tw">Twitter</p>
+        <p class="insta">Instagram</p>
+    </div>
+
+    <!-- A cikk -->
+<main class="new">
+    <article class="news-article">
+
+        <header class="news-header">
+            <span class="news-category">Technológia</span>
+
+            <h1>Hogyan változtatja meg a mesterséges intelligencia a mindennapjainkat?</h1>
+
+            <p class="news-lead">
+                A mesterséges intelligencia egyre több területen jelenik meg:
+                segíti a tanulást, felgyorsítja a munkát, és új lehetőségeket
+                teremt a digitális világban.
+            </p>
+
+            <div class="news-meta">
+                <span>Szerző: Kovács Péter</span>
+                <time datetime="2026-10-10">2026. október 10.</time>
+            </div>
+        </header>
+
+        <figure class="news-hero">
+            <img
+                src="https://picsum.photos/1200/600?random=25"
+                alt="Technológia és mesterséges intelligencia"
+            >
+            <figcaption>
+                A mesterséges intelligencia egyre több digitális szolgáltatásban jelenik meg.
+            </figcaption>
+        </figure>
+
+        <div class="news-content">
+            <p>
+                Az elmúlt években a mesterséges intelligencia a kutatólaboratóriumokból
+                a hétköznapi alkalmazásokba is bekerült. Ma már szövegek írására,
+                képek feldolgozására, programozásra és adatok elemzésére is
+                használható.
+            </p>
+
+            <h2>Hatékonyabb munkavégzés</h2>
+
+            <p>
+                Az intelligens szoftverek képesek automatizálni bizonyos ismétlődő
+                feladatokat. Segíthetnek dokumentumok összefoglalásában, adatok
+                rendszerezésében és egyszerűbb programozási problémák megoldásában.
+                Ez időt takaríthat meg, de az eredményeket továbbra is érdemes
+                ellenőrizni.
+            </p>
+
+            <h2>Új lehetőségek az oktatásban</h2>
+
+            <p>
+                Az oktatásban az MI személyre szabott magyarázatokkal, gyakorló
+                feladatokkal és azonnali visszajelzéssel támogathatja a tanulást.
+                Fontos azonban, hogy a tanulók ne csak a kész válaszokat használják,
+                hanem a megoldások mögötti összefüggéseket is megértsék.
+            </p>
+
+            <h2>Kihívások és felelősség</h2>
+
+            <p>
+                A technológia alkalmazása adatvédelmi és megbízhatósági kérdéseket
+                is felvet. Az MI téves információkat is előállíthat, ezért a
+                fontos döntéseknél ellenőrzött forrásokra és emberi felülvizsgálatra
+                van szükség.
+            </p>
+
+            <p>
+                A mesterséges intelligencia tehát hasznos eszköz lehet, ha
+                tudatosan alkalmazzuk, és tisztában vagyunk a korlátaival.
+            </p>
+        </div>
+
+        <footer class="news-footer">
+            <span>Címkék:</span>
+            <a href="NewsCategoryListView.html">MI</a>
+            <a href="NewsCategoryListView.html">Technológia</a>
+            <a href="NewsCategoryListView.html">Digitalizáció</a>
+        </footer>
+
+    </article>
+</main>
+
+    <!-- TOVÁBBI HÍREK -->
+    <section class="toparticles">
+    <p class="toparticles-heading">Legnépszerűbb cikkek</p>
+
+    <article>
+        <a href="NewsPageView.html" class="news-link">
+        <div>
+            <img src="https://picsum.photos/150/100?random=1" alt="Technológia">
+        </div>
+        <div class="toparticle-content">
+            <h3>Új technológiai fejlesztések érkeznek</h3>
+            <p class="toparticle-intro">
+                A legújabb fejlesztések jelentősen átalakíthatják a mindennapjainkat.
+            </p>
+        </div>
+        </a>
+    </article>
+
+    <article>
+        <a href="NewsPageView.html" class="news-link">
+        <div>
+            <img src="https://picsum.photos/150/100?random=2" alt="Gazdaság">
+        </div>
+        <div class="toparticle-content">
+            <h3>Változások a gazdaságban</h3>
+            <p class="toparticle-intro">
+                A szakértők szerint a következő időszak több fontos változást hozhat.
+            </p>
+        </div>
+        </a>
+    </article>
+
+    <article>
+        <a href="NewsPageView.html" class="news-link">
+        <div>
+            <img src="https://picsum.photos/150/100?random=3" alt="Tudomány">
+        </div>
+        <div class="toparticle-content">
+            <h3>Fontos tudományos felfedezés</h3>
+            <p class="toparticle-intro">
+                A kutatók új eredményei további lehetőségeket nyithatnak meg.
+            </p>
+        </div>
+        </a>
+    </article>
+
+    <article>
+        <a href="NewsPageView.html" class="news-link">
+        <div>
+            <img src="https://picsum.photos/150/100?random=2" alt="Gazdaság">
+        </div>
+        <div class="toparticle-content">
+            <h3>Változások a gazdaságban</h3>
+            <p class="toparticle-intro">
+                A szakértők szerint a következő időszak több fontos változást hozhat.
+            </p>
+        </div>
+        </a>
+    </article>
+
+    <article>
+        <a href="NewsPageView.html" class="news-link">
+        <div>
+            <img src="https://picsum.photos/150/100?random=2" alt="Gazdaság">
+        </div>
+        <div class="toparticle-content">
+            <h3>Változások a gazdaságban</h3>
+            <p class="toparticle-intro">
+                A szakértők szerint a következő időszak több fontos változást hozhat.
+            </p>
+        </div>
+        </a>
+    </article>
+</section>
+
+    <!-- GOOGLE ADS HELY -->
+    <aside class="googleads">
+        <span class="ad-label">HIRDETÉS</span>
+
+        <div class="ad-content">
+            <div class="ad-placeholder-image">AD</div>
+            <h3>Hirdetési felület</h3>
+            <p>
+                Ezen a helyen jelenhetnek meg a Google AdSense
+                hirdetései vagy saját reklámok.
+            </p>
+            <a href="#">További információ</a>
+        </div>
+
+        <div class="ad-secondary">
+            <span class="ad-label">HIRDETÉS</span>
+            <div class="ad-placeholder-image">AD</div>
+            <p>Második hirdetési hely</p>
+        </div>
+    </aside>
+
+</div>
+
+</body>
+</html>
