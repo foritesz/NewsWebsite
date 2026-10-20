@@ -1,0 +1,16 @@
+<section class="weeklytop" aria-labelledby="weekly-title">
+  <p id="weekly-title" class="weeklyheader">Heti hírek</p>
+  @for (article of articles; track article.id) {
+    <article class="article1">
+      <div class="warticleimage1">
+        <img [src]="article.image" [alt]="article.title" />
+      </div>
+      <div class="warticletitle1">
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.views }} megtekintés</p>
+      </div>
+    </article>
+  } @empty {
+    <p class="empty-state">Jelenleg nincs megjeleníthető heti hír.</p>
+  }
+</section>

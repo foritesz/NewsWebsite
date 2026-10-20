@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.googleads {
+  min-height: 0;
+  padding: 16px;
+  border: 1px dashed #c9cdd1;
+  border-radius: 6px;
+  background: #fff;
+  color: #666;
+}
+
+.ad-label {
+  color: #888;
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+
+.ad-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 10px;
+}
+
+.ad-placeholder-image {
+  display: grid;
+  width: 64px;
+  height: 52px;
+  flex: 0 0 auto;
+  place-items: center;
+  background: #f1f2f4;
+  color: #999;
+  font-weight: 700;
+}
+
+.ad-copy { min-width: 0; }
+.ad-copy h3,
+.ad-copy p { margin: 0; }
+.ad-copy h3 { font-size: 14px; }
+.ad-copy p { margin-top: 4px; font-size: 12px; }
+
+@media (max-width: 480px) {
+  .ad-content { align-items: flex-start; flex-direction: column; }
+}

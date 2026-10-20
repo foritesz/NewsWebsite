@@ -1,0 +1,56 @@
+<div class="container category-container">
+  <section class="_socialmedia" aria-label="Közösségi oldalak">
+    <p>Facebook</p>
+    <p>Twitter</p>
+    <p>Instagram</p>
+  </section>
+
+  <main class="listofarticles" aria-labelledby="category-title">
+    <h1 id="category-title">{{ category || 'Kategória' }}</h1>
+    @if (categoryExists) {
+      <p class="category-result-count">{{ articles.length }} cikk a kategóriában</p>
+      @for (article of articles; track article.id; let index = $index) {
+        <article [class]="'category-article newarticle' + ((index % 3) + 1)">
+          <div class="newarticleimage1">
+            <img [src]="article.image" [alt]="article.title" />
+          </div>
+          <div class="category-article-copy">
+            <p class="article-category">{{ article.category }}</p>
+            <h2>{{ article.title }}</h2>
+            <p class="newshort1">{{ article.introduction }}</p>
+            <p class="category-views">{{ article.views }} megtekintés</p>
+          </div>
+        </article>
+      } @empty {
+        <p class="empty-state">Ebben a kategóriában még nincs megjeleníthető hír.</p>
+      }
+    } @else {
+      <p class="empty-state">
+        A „{{ category }}” kategória nem található. Válassz kategóriát a felső menüből.
+      </p>
+    }
+  </main>
+
+  <aside class="category-sidebar">
+    <app-weeklynews />
+
+    <section class="toparticles" aria-labelledby="popular-title">
+      <p id="popular-title" class="toparticles-heading">Legnépszerűbb cikkek</p>
+      @for (article of mostPopularNews; track article.id) {
+        <article class="popular-article">
+          <div>
+            <img [src]="article.image" [alt]="article.title" />
+          </div>
+          <div class="toparticle-content">
+            <h3>{{ article.title }}</h3>
+            <p class="toparticle-intro">{{ article.introduction }}</p>
+          </div>
+        </article>
+      } @empty {
+        <p class="empty-state">Nincs megjeleníthető népszerű cikk.</p>
+      }
+    </section>
+  </aside>
+
+  <app-adspace class="googleads" />
+</div>

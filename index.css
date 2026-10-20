@@ -38,6 +38,14 @@ img {
     align-items: start;
 }
 
+.mainpage-container {
+    grid-template-areas:
+        "social social"
+        "lead top"
+        "new weekly"
+        "ads ads";
+}
+
 /* Üres, jelenleg nem használt elemek */
 .footer,
 .table {
@@ -307,6 +315,16 @@ img {
         gap: 14px;
     }
 
+    .mainpage-container {
+        grid-template-areas:
+            "social"
+            "lead"
+            "top"
+            "new"
+            "weekly"
+            "ads";
+    }
+
     .header {
         flex-wrap: wrap;
         gap: 10px;
@@ -359,161 +377,152 @@ img {
     }
 }
 
-```css
-/* Kompaktabb More News panel */
-.toparticles {
-    padding: 12px;
-    align-self: start;
-    overflow: hidden;
+/* Shared Angular app shell: keeps the index design on every route. */
+app-root {
+    display: block;
+    min-height: calc(100vh - 48px);
+    color: #222;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.toparticles > p {
-    margin-bottom: 8px;
-    padding-bottom: 7px;
-    font-size: 16px;
+.site-shell {
+    display: flex;
+    min-height: calc(100vh - 48px);
+    flex-direction: column;
 }
 
-/* Egy hír alacsonyabb legyen */
-.toparticles > article {
+.site-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    min-height: 0;
-    margin: 0;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
+    gap: 22px;
+    min-height: 72px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    padding: 8px 18px;
+    border-bottom: 2px solid #d71920;
+    border-radius: 6px;
+    background: #fff;
 }
 
-.toparticles > article:last-child {
-    border-bottom: 0;
-}
-
-/* Kisebb képek */
-.toparticles > article > div:first-child {
-    flex: 0 0 76px;
-}
-
-.toparticles img {
-    width: 76px;
-    height: 52px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-/* Rövidebb, tömörebb címek */
-.toparticles h3 {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    margin: 0;
-    font-size: 12px;
-    line-height: 1.35;
-}
-
-/* A főcikk magasságához igazítás */
-@media (min-width: 901px) {
-    .toparticles {
-        max-height: 100%;
-    }
-
-    .leadarticle,
-    .toparticles {
-        align-self: start;
-    }
-}
-.toparticles > article {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 8px 0;
-    margin: 0;
-    border-bottom: 1px solid #eee;
-}
-
-.toparticles > article > div:first-child {
-    flex: 0 0 76px;
-}
-
-.toparticles img {
+.brand,
+.logo-link {
     display: block;
+    flex: 0 0 auto;
+}
+
+.brand img,
+.logo img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+}
+
+.site-nav {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px 18px;
+}
+
+.site-nav a,
+.site-nav .category-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color .2s ease, color .2s ease;
+}
+
+.site-nav a:hover,
+.site-nav .category-link:hover,
+.site-nav a:focus-visible {
+    background: #e8f0fe;
+    color: #174ea6;
+}
+
+router-outlet + * {
+    flex: 1 0 auto;
+}
+
+.site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    margin-top: auto;
+    width: 100%;
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 18px;
+    border-top: 2px solid #d71920;
+    border-radius: 6px;
+    background: #fff;
+    color: #555;
+}
+
+.footer-brand,
+.social-links a {
+    color: #333;
+    text-decoration: none;
+}
+
+.footer-brand { font-weight: 700; }
+.site-footer p { margin: 0; }
+.social-links { display: flex; flex-wrap: wrap; gap: 16px; }
+.weekly-slot { grid-area: weekly; min-width: 0; }
+
+.toparticles > .toparticle-row > div:first-child {
+    flex: 0 0 76px;
+}
+
+.toparticle-row img {
     width: 76px;
     height: 60px;
     object-fit: cover;
     border-radius: 4px;
 }
 
-.toparticle-content {
-    flex: 1;
-    min-width: 0;
+.lead-story + .lead-story {
+    border-top: 1px solid #eee;
 }
 
-.toparticle-content h3 {
-    margin: 0 0 4px;
-    font-size: 13px;
-    line-height: 1.3;
+.newarticleimage1 img {
+    width: min(100%, 400px);
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
 }
 
-.toparticle-intro {
-    margin: 0;
-    color: #666;
-    font-size: 11px;
-    line-height: 1.35;
-
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.searcharea {
+    flex: 0 1 220px;
 }
 
-.news-link {
-    color: inherit;
-    text-decoration: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
+@media (max-width: 800px) {
+    app-root,
+    .site-shell {
+        min-height: calc(100vh - 24px);
+    }
+
+    .site-header { flex-wrap: wrap; gap: 10px; }
+    .site-nav { justify-content: flex-start; gap: 10px 14px; }
+    .site-footer { align-items: flex-start; flex-direction: column; }
 }
 
-/* Egér föléhúzásakor */
-.news-link:hover {
-    background-color: #e8f0fe;
-    color: #174ea6;
+@media (max-width: 480px) {
+    app-root,
+    .site-shell {
+        min-height: calc(100vh - 16px);
+    }
+
+    .site-header { padding: 10px; }
+    .brand img,
+    .logo img { width: 42px; height: 42px; }
 }
 
-/* Kattintás közben */
-.news-link:active {
-    background-color: #c6dafc;
-    color: #0d47a1;
-}
-
-.news-link .toparticle-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.category-link,
-.searchicon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 12px;
-    color: #333;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.category-link:hover,
-.searchicon:hover {
-    background-color: #e8f0fe;
-    color: #174ea6;
-}
-
-.category-link:active,
-.searchicon:active {
-    background-color: #c6dafc;
-    color: #0d47a1;
-}
-
-.category-link:focus-visible,
-.searchicon:focus-visible {
-    outline: 2px solid #4285f4;
-    outline-offset: 2px;
-}

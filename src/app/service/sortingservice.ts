@@ -36,6 +36,9 @@ export class SortingService {
   }
   getCategoryNews(category: string): Article[] {
     const articles = this.articleService.getAll();
-    return articles.filter(article => article.category === category);
+    const normalizedCategory = category.trim().toLocaleLowerCase();
+    return articles.filter(
+      article => article.category.trim().toLocaleLowerCase() === normalizedCategory
+    );
   }
 }
