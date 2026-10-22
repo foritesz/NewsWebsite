@@ -49,6 +49,6 @@ export class App {
   readonly categories: string[];
 
   constructor(articleService: ArticleService) {
-    this.categories = [...new Set(articleService.getAll().map(article => article.category))];
+    this.categories = articleService.getCategories();
   }
 }

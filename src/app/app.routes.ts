@@ -7,7 +7,7 @@ import {AuthorsComponent} from './page/adminside/newseditor';
 export const routes: Routes = [
   { path: 'news/:id', component: ArticlePage },
   { path: 'category/:category', component: CategoryPage },
-  { path: 'authors', component: AuthorsComponent },
+  { path: 'author', component: AuthorsComponent },
   { path: '', pathMatch: 'full', component: MainPage },
   { path: '**', redirectTo: '' }
 ];
