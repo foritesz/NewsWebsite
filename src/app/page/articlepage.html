@@ -28,6 +28,9 @@
           <p>{{ currentArticle.content || currentArticle.introduction }}</p>
         </div>
         <footer class="news-footer">
+        <button (click)="deleteArticle(currentArticle.id)">
+          Törlés
+        </button>
           <span>Címke:</span>
           <a [routerLink]="['/category', currentArticle.category]">{{ currentArticle.category }}</a>
           <a class="back-link" routerLink="/">Vissza a főoldalra</a>

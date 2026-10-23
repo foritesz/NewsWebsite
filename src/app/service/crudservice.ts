@@ -37,10 +37,19 @@ export class ArticleService {
       if (!Array.isArray(parsedArticles) || parsedArticles.length === 0) return this.articles;
 
       if (parsedArticles.length > 0) {
-        this.articles = (parsedArticles as Article[]).map(article => ({
-          ...article,
-          date: article.date ? new Date(article.date) : new Date(),
-        }));
+        this.articles = (parsedArticles as Article[]).map((article, index) => {
+          const record = article as Article & { name?: unknown };
+          const id = Number(record?.id);
+          const rawDate = record?.date;
+          const parsedDate = rawDate ? new Date(rawDate) : undefined;
+
+          return {
+            ...record,
+            id: Number.isFinite(id) && id > 0 ? id : index + 1,
+            title: typeof record?.title === 'string' ? record.title : typeof record?.name === 'string' ? record.name : '',
+            date: parsedDate && !Number.isNaN(parsedDate.getTime()) ? parsedDate : new Date(),
+          };
+        });
       }
     } catch {
       // Invalid or unavailable browser storage falls back to the built-in list.
@@ -57,7 +66,7 @@ export class ArticleService {
   }
 
   getById(id: number): Article | undefined {
-    return this.getAll().find(article => article.id === id);
+    return this.getAll().find(article => Number(article.id) === Number(id));
   }
 
   saveAll(articles: Article[]): void {
