@@ -13,8 +13,8 @@
           <div class="news-meta">
             <span>{{ currentArticle.views }} megtekintés</span>
             @if (currentArticle.date) {
-              <time [attr.datetime]="currentArticle.date | date: 'yyyy-MM-dd'">
-                {{ currentArticle.date | date: 'yyyy. MMMM d.' }}
+              <time [attr.datetime]="currentArticle.date | date: 'yyyy-MM-ddTHH:mm'">
+                {{ currentArticle.date | date: 'yyyy. MMMM d. HH:mm' }}
               </time>
             }
           </div>
