@@ -5,12 +5,19 @@
       <span>Hírportál</span>
     </a>
 
+
     <nav class="site-nav" aria-label="Kategóriák">
       @for (category of categories; track category) {
         <a [routerLink]="['/category', category]">{{ category }}</a>
       }
     </nav>
   </header>
+
+  <section class="_socialmedia" aria-label="Közösségi oldalak">
+    <p>Facebook</p>
+    <p>Twitter</p>
+    <p>Instagram</p>
+  </section>
 
   <router-outlet />
 

@@ -8,16 +8,20 @@ import { PopularNews } from './partofpage/popularnews';
 @Component({
   selector: 'app-articlepage',
   imports: [DatePipe, RouterLink, PopularNews],
-  templateUrl: './newspage.html',
+  templateUrl: './articlepage.html',
   styleUrl: './articlepage.css',
 })
 export class ArticlePage {
   article?: Article;
+  views: number = 0;
+
 
   constructor(route: ActivatedRoute, articleService: ArticleService) {
     route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
       this.article = Number.isFinite(id) ? articleService.getById(id) : undefined;
+        this.views=(this.article?.views ?? 0) + 1;
+        articleService.saveAll(articleService.getAll().map(a => a.id === id ? { ...a, views: this.views } : a));
     });
   }
 }

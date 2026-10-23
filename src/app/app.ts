@@ -31,6 +31,12 @@ import { ArticleService } from './service/crudservice';
         </div>
       </header>
 
+      <section class="_socialmedia" aria-label="Közösségi oldalak">
+        <p>Facebook</p>
+        <p>Twitter</p>
+        <p>Instagram</p>
+      </section>
+
       <router-outlet />
 
       <footer class="site-footer">
