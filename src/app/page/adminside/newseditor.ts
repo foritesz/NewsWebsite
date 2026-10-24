@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Article } from '../../model/article';
 import { ArticleService } from '../../service/crudservice';
 
@@ -17,14 +18,33 @@ export class NewsEditorComponent {
   content = '';
   image = '';
   frontpage = false;
+  id: number | null = null;
   submittedArticle?: Article;
   readonly categories: string[];
   articles: Article[];
 
-  constructor(private readonly articleService: ArticleService) {
+  constructor(
+    private readonly articleService: ArticleService,
+    private readonly route: ActivatedRoute,
+  ) {
     this.articles = articleService.getAll().map((article, index) => this.normalizeArticle(article, index));
     this.articleService.saveAll(this.articles);
     this.categories = ArticleService.defaultCategories;
+
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam !== null) {
+      const id = Number(idParam);
+      const article = Number.isFinite(id) ? this.articles.find(item => item.id === id) : undefined;
+      if (article) {
+        this.id = article.id;
+        this.title = article.title;
+        this.category = article.category;
+        this.introduction = article.introduction;
+        this.content = article.content;
+        this.image = article.image;
+        this.frontpage = article.frontpage;
+      }
+    }
   }
 
   onSubmit(): void {
@@ -35,26 +55,44 @@ export class NewsEditorComponent {
     const image = this.image.trim();
     if (!title || !category || !introduction || !content || !image || !this.categories.includes(category)) return;
 
-    const nextId = this.articles.reduce(
-      (maximum, article) => Math.max(maximum, article.id),
-      0,
-    ) + 1;
+    let article: Article;
+    if (this.id !== null) {
+      const existingArticle = this.articles.find(item => item.id === this.id);
+      if (!existingArticle) return;
+      article = {
+        ...existingArticle,
+        title,
+        category,
+        introduction,
+        content,
+        image,
+        frontpage: this.frontpage,
+      };
+      this.articles = this.articles.map(item => item.id === this.id ? article : item);
+    } else {
+      const nextId = this.articles.reduce(
+        (maximum, item) => Math.max(maximum, item.id),
+        0,
+      ) + 1;
 
-    const article = this.normalizeArticle({
-      id: nextId,
-      views: 0,
-      title,
-      category,
-      frontpage: this.frontpage,
-      introduction,
-      content,
-      image,
-      date: new Date(),
-    }, this.articles.length);
+      article = this.normalizeArticle({
+        id: nextId,
+        views: 0,
+        title,
+        category,
+        frontpage: this.frontpage,
+        introduction,
+        content,
+        image,
+        date: new Date(),
+      }, this.articles.length);
 
-    this.articles.push(article);
+      this.articles.push(article);
+    }
     this.articleService.saveAll(this.articles);
     this.submittedArticle = article;
+
+    if (this.id !== null) return;
 
     this.title = '';
     this.category = this.categories[0] ?? '';

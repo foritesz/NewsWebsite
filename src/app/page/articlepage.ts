@@ -17,6 +17,7 @@ export class ArticlePage {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   readonly articleService = inject(ArticleService);
+  protected readonly isLoggedIn:boolean=true;// This should be replaced with actual authentication logic
 
   constructor() {
     this.route.paramMap.subscribe(params => {
@@ -35,5 +36,9 @@ export class ArticlePage {
   deleteArticle(id: number): void {
     this.articleService.delete(id);
     this.router.navigate(['/']);
+  }
+
+  updateArticle(id: number): void {
+    this.router.navigate(['/author',id]);
   }
 }

@@ -1,5 +1,5 @@
 <section class="article-editor">
-  <h1>Új cikk</h1>
+  <h1>{{ id === null ? 'Új cikk' : 'Cikk szerkesztése' }}</h1>
   <form #articleForm="ngForm" (ngSubmit)="onSubmit()">
     <label for="title">Cím</label>
     <input id="title" name="title" [(ngModel)]="title" required />
@@ -26,10 +26,10 @@
       Jelenjen meg a címlapon
     </label>
 
-    <button type="submit" [disabled]="articleForm.invalid">Cikk mentése</button>
+    <button type="submit" [disabled]="articleForm.invalid">{{ id === null ? 'Cikk mentése' : 'Módosítások mentése' }}</button>
   </form>
 
   @if (submittedArticle) {
-    <p role="status">A cikk sikeresen mentve. Azonosító: {{ submittedArticle.id }}</p>
+    <p role="status">{{ id === null ? 'A cikk sikeresen mentve.' : 'A cikk módosításai sikeresen mentve.' }} Azonosító: {{ submittedArticle.id }}</p>
   }
 </section>
