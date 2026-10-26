@@ -4,12 +4,15 @@ import com.example.newsbackend.model.News;
 import com.example.newsbackend.repository.NewsRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Calendar;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Service
-public class NewsService {
+public class NewsService{
 
   private final NewsRepository newsRepository;
 
@@ -22,25 +25,61 @@ public class NewsService {
   }
 
   public List<News> GetWeeklyNews() {
-    Calendar calendar = Calendar.getInstance();
-    calendar.add(Calendar.DAY_OF_YEAR, -7);
-    Date sevenDaysAgo = calendar.getTime();
-    return newsRepository.findWeeklyTop5(sevenDaysAgo);
+    Date sevenDaysAgo = Date.from(Instant.now().minus(7, ChronoUnit.DAYS));
+    return newsRepository.findAll().stream()
+        .filter(article -> article.getPublishDate() != null
+            && !article.getPublishDate().before(sevenDaysAgo))
+        .sorted(Comparator.comparingInt(News::getViews).reversed())
+        .limit(5)
+        .toList();
   }
 
   public List<News> GetFreshNews() {
-    return newsRepository.findFreshTop5();
+    return newsRepository.findAll().stream()
+        .sorted(Comparator.comparing(
+            News::getPublishDate,
+            Comparator.nullsLast(Comparator.reverseOrder())))
+        .limit(5)
+        .toList();
   }
 
   public List<News> GetPopularNews() {
-    return newsRepository.findTop5MostViewed();
+    return newsRepository.findAll().stream()
+        .sorted(Comparator.comparingInt(News::getViews).reversed())
+        .limit(5)
+        .toList();
   }
 
   public List<News> GetCategory(String category) {
-    return newsRepository.findByCategory(category.trim());
+    if (category == null || category.isBlank()) {
+      return List.of();
+    }
+    String normalizedCategory = category.trim().toLowerCase(Locale.ROOT);
+    return newsRepository.findAll().stream()
+        .filter(article -> article.getCategory() != null
+            && article.getCategory().trim().toLowerCase(Locale.ROOT).equals(normalizedCategory))
+        .sorted(Comparator.comparing(
+            News::getPublishDate,
+            Comparator.nullsLast(Comparator.reverseOrder())))
+        .toList();
   }
 
   public List<News> GetBySearch(String searchTerm) {
-    return newsRepository.searchArticles(searchTerm.trim());
+    if (searchTerm == null || searchTerm.isBlank()) {
+      return List.of();
+    }
+    String normalizedTerm = searchTerm.trim().toLowerCase(Locale.ROOT);
+    return newsRepository.findAll().stream()
+        .filter(article -> contains(article.getTitle(), normalizedTerm)
+            || contains(article.getIntroduction(), normalizedTerm)
+            || contains(article.getContent(), normalizedTerm))
+        .sorted(Comparator.comparing(
+            News::getPublishDate,
+            Comparator.nullsLast(Comparator.reverseOrder())))
+        .toList();
+  }
+
+  private boolean contains(String text, String normalizedTerm) {
+    return text != null && text.toLowerCase(Locale.ROOT).contains(normalizedTerm);
   }
 }
