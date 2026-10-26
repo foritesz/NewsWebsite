@@ -12,4 +12,7 @@ public class Author {
     private int id;
     private String Name;
     private String Password;
+    private String UserName;
+
+
 }

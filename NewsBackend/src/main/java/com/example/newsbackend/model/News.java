@@ -13,16 +13,19 @@ public class News {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  private int Views;
-  private Category Category;
-  private boolean Frontpage;
-  private String Title;
-  private String Introduction;
-  private String Content;
-  private String ImageUrl;
-  private Date PublishDate;
-  private String Author;
+  private int views;
+  private String category;
+  private boolean frontpage;
+  private String title;
+  private String introduction;
+  private String content;
+  @Column(name = "image")
+  private String imageUrl;
 
+  @Column(name = "date")
+  private Date publishDate;
 
+  @Column(name = "id_auth")
+  private Integer author;
 
 }
