@@ -1,6 +1,7 @@
 package com.example.newsbackend.service;
 
 import com.example.newsbackend.model.News;
+import com.example.newsbackend.model.Category;
 import com.example.newsbackend.repository.NewsRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,10 @@ public class NewsService{
     return newsRepository.findAll();
   }
 
+  public News AddNews(News article) {
+    return newsRepository.save(article);
+  }
+
   public List<News> GetWeeklyNews() {
     Date sevenDaysAgo = Date.from(Instant.now().minus(7, ChronoUnit.DAYS));
     return newsRepository.findAll().stream()
@@ -36,6 +41,7 @@ public class NewsService{
 
   public List<News> GetFreshNews() {
     return newsRepository.findAll().stream()
+      .filter(article-> !article.isFrontpage())
         .sorted(Comparator.comparing(
             News::getPublishDate,
             Comparator.nullsLast(Comparator.reverseOrder())))
@@ -50,14 +56,12 @@ public class NewsService{
         .toList();
   }
 
-  public List<News> GetCategory(String category) {
-    if (category == null || category.isBlank()) {
+  public List<News> GetCategory(Category category) {
+    if (category == null) {
       return List.of();
     }
-    String normalizedCategory = category.trim().toLowerCase(Locale.ROOT);
     return newsRepository.findAll().stream()
-        .filter(article -> article.getCategory() != null
-            && article.getCategory().trim().toLowerCase(Locale.ROOT).equals(normalizedCategory))
+        .filter(article -> article.getCategory() == category)
         .sorted(Comparator.comparing(
             News::getPublishDate,
             Comparator.nullsLast(Comparator.reverseOrder())))

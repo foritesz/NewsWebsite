@@ -1,6 +1,7 @@
 package com.example.newsbackend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,18 +15,29 @@ public class News {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private int views;
-  private String category;
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private Category category;
   private boolean frontpage;
+  @NotNull
+  @Column(nullable = false)
   private String title;
+  @NotNull
+  @Column(nullable = false)
   private String introduction;
+  @NotNull
+  @Column(nullable = false)
   private String content;
   @Column(name = "image")
   private String imageUrl;
 
-  @Column(name = "date")
+  @NotNull
+  @Column(name = "date", nullable = false)
   private Date publishDate;
 
-  @Column(name = "id_auth")
+  @NotNull
+  @Column(name = "id_auth", nullable = false)
   private Integer author;
 
 }
