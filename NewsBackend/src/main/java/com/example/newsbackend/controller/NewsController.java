@@ -2,7 +2,7 @@ package com.example.newsbackend.controller;
 
 import com.example.newsbackend.model.News;
 import com.example.newsbackend.model.Category;
-import com.example.newsbackend.service.NewsService;
+import com.example.newsbackend.service.NewsUseCases;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,38 +17,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/news")
-public class NewsController {
+public class NewsController implements NewsUseCases {
 
-  private final NewsService newsService;
+  private final NewsUseCases newsService;
 
-  public NewsController(NewsService newsService) {
+  public NewsController(NewsUseCases newsService) {
     this.newsService = newsService;
   }
 
   @GetMapping("/weekly")
   public List<News> getWeeklyNews() {
-    return newsService.GetWeeklyNews();
+    return newsService.getWeeklyNews();
   }
 
   @GetMapping("/fresh")
   public List<News> getFreshNews() {
-    return newsService.GetFreshNews();
+    return newsService.getFreshNews();
   }
 
   @GetMapping("/popular")
   public List<News> getPopularNews() {
-    return newsService.GetPopularNews();
+    return newsService.getPopularNews();
   }
 
   @GetMapping("/category")
   public List<News> getCategory(@RequestParam Category category) {
-    return newsService.GetCategory(category);
+    return newsService.getCategory(category);
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public News addNews(@Valid @RequestBody News article) {
     article.setId(0);
-    return newsService.AddNews(article);
+    return newsService.addNews(article);
   }
 }

@@ -2,7 +2,7 @@ package com.example.newsbackend.service;
 
 import com.example.newsbackend.model.News;
 import com.example.newsbackend.model.Category;
-import com.example.newsbackend.repository.NewsRepository;
+import com.example.newsbackend.repository.NewsStore;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -13,25 +13,27 @@ import java.util.List;
 import java.util.Locale;
 
 @Service
-public class NewsService{
+public class NewsService implements NewsUseCases {
 
-  private final NewsRepository newsRepository;
+  private final NewsStore newsStore;
 
-  public NewsService(NewsRepository newsRepository) {
-    this.newsRepository = newsRepository;
+  public NewsService(NewsStore newsStore) {
+    this.newsStore = newsStore;
   }
 
-  public List<News> GetArticles() {
-    return newsRepository.findAll();
+  public List<News> getArticles() {
+    return newsStore.findAll();
   }
 
-  public News AddNews(News article) {
-    return newsRepository.save(article);
+  @Override
+  public News addNews(News article) {
+    return newsStore.save(article);
   }
 
-  public List<News> GetWeeklyNews() {
+  @Override
+  public List<News> getWeeklyNews() {
     Date sevenDaysAgo = Date.from(Instant.now().minus(7, ChronoUnit.DAYS));
-    return newsRepository.findAll().stream()
+    return newsStore.findAll().stream()
         .filter(article -> article.getPublishDate() != null
             && !article.getPublishDate().before(sevenDaysAgo))
         .sorted(Comparator.comparingInt(News::getViews).reversed())
@@ -39,8 +41,9 @@ public class NewsService{
         .toList();
   }
 
-  public List<News> GetFreshNews() {
-    return newsRepository.findAll().stream()
+  @Override
+  public List<News> getFreshNews() {
+    return newsStore.findAll().stream()
       .filter(article-> !article.isFrontpage())
         .sorted(Comparator.comparing(
             News::getPublishDate,
@@ -49,18 +52,20 @@ public class NewsService{
         .toList();
   }
 
-  public List<News> GetPopularNews() {
-    return newsRepository.findAll().stream()
+  @Override
+  public List<News> getPopularNews() {
+    return newsStore.findAll().stream()
         .sorted(Comparator.comparingInt(News::getViews).reversed())
         .limit(5)
         .toList();
   }
 
-  public List<News> GetCategory(Category category) {
+  @Override
+  public List<News> getCategory(Category category) {
     if (category == null) {
       return List.of();
     }
-    return newsRepository.findAll().stream()
+    return newsStore.findAll().stream()
         .filter(article -> article.getCategory() == category)
         .sorted(Comparator.comparing(
             News::getPublishDate,
@@ -68,12 +73,12 @@ public class NewsService{
         .toList();
   }
 
-  public List<News> GetBySearch(String searchTerm) {
+  public List<News> getBySearch(String searchTerm) {
     if (searchTerm == null || searchTerm.isBlank()) {
       return List.of();
     }
     String normalizedTerm = searchTerm.trim().toLowerCase(Locale.ROOT);
-    return newsRepository.findAll().stream()
+    return newsStore.findAll().stream()
         .filter(article -> contains(article.getTitle(), normalizedTerm)
             || contains(article.getIntroduction(), normalizedTerm)
             || contains(article.getContent(), normalizedTerm))

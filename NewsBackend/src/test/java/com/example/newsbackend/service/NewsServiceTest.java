@@ -2,7 +2,7 @@ package com.example.newsbackend.service;
 
 import com.example.newsbackend.model.Category;
 import com.example.newsbackend.model.News;
-import com.example.newsbackend.repository.NewsRepository;
+import com.example.newsbackend.repository.NewsStore;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ class NewsServiceTest {
   @Test
   void addNewsSavesArticleToListBackedRepository() {
     List<News> articles = new ArrayList<>();
-    NewsRepository repository = mock(NewsRepository.class);
+    NewsStore repository = mock(NewsStore.class);
     doAnswer(invocation -> {
       News article = invocation.getArgument(0);
       articles.add(article);
@@ -41,7 +41,7 @@ class NewsServiceTest {
     article.setAuthor(1);
     article.setImageUrl(null);
 
-    News savedArticle = service.AddNews(article);
+    News savedArticle = service.addNews(article);
 
     assertSame(article, savedArticle);
     assertEquals(1, articles.size());
