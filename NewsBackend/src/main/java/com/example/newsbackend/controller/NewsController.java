@@ -1,7 +1,10 @@
 package com.example.newsbackend.controller;
 
-import com.example.newsbackend.model.News;
-import com.example.newsbackend.model.Category;
+import com.example.newsbackend.dto.CreateNewsRequest;
+import com.example.newsbackend.dto.NewsDTO;
+import com.example.newsbackend.dto.NewsMapper;
+import com.example.newsbackend.entity.NewsEntity;
+import com.example.newsbackend.domain.Category;
 import com.example.newsbackend.service.NewsUseCases;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,38 +20,44 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/news")
-public class NewsController implements NewsUseCases {
+public class NewsController {
 
   private final NewsUseCases newsService;
+  private final NewsMapper newsMapper;
 
-  public NewsController(NewsUseCases newsService) {
+  public NewsController(NewsUseCases newsService, NewsMapper newsMapper) {
     this.newsService = newsService;
+    this.newsMapper = newsMapper;
   }
 
   @GetMapping("/weekly")
-  public List<News> getWeeklyNews() {
-    return newsService.getWeeklyNews();
+  public List<NewsDTO> getWeeklyNews() {
+    return toResponses(newsService.getWeeklyNews());
   }
 
   @GetMapping("/fresh")
-  public List<News> getFreshNews() {
-    return newsService.getFreshNews();
+  public List<NewsDTO> getFreshNews() {
+    return toResponses(newsService.getFreshNews());
   }
 
   @GetMapping("/popular")
-  public List<News> getPopularNews() {
-    return newsService.getPopularNews();
+  public List<NewsDTO> getPopularNews() {
+    return toResponses(newsService.getPopularNews());
   }
 
   @GetMapping("/category")
-  public List<News> getCategory(@RequestParam Category category) {
-    return newsService.getCategory(category);
+  public List<NewsDTO> getCategory(@RequestParam Category category) {
+    return toResponses(newsService.getCategory(category));
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public News addNews(@Valid @RequestBody News article) {
-    article.setId(0);
-    return newsService.addNews(article);
+  public NewsDTO addNews(@Valid @RequestBody CreateNewsRequest request) {
+    NewsEntity article = newsMapper.toEntity(request);
+    return newsMapper.toResponse(newsService.addNews(article));
+  }
+
+  private List<NewsDTO> toResponses(List<NewsEntity> articles) {
+    return articles.stream().map(newsMapper::toResponse).toList();
   }
 }

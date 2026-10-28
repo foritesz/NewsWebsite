@@ -1,7 +1,7 @@
 package com.example.newsbackend.service;
 
-import com.example.newsbackend.model.News;
-import com.example.newsbackend.model.Category;
+import com.example.newsbackend.entity.NewsEntity;
+import com.example.newsbackend.domain.Category;
 import com.example.newsbackend.repository.NewsStore;
 import org.springframework.stereotype.Service;
 
@@ -21,59 +21,59 @@ public class NewsService implements NewsUseCases {
     this.newsStore = newsStore;
   }
 
-  public List<News> getArticles() {
+  public List<NewsEntity> getArticles() {
     return newsStore.findAll();
   }
 
   @Override
-  public News addNews(News article) {
+  public NewsEntity addNews(NewsEntity article) {
     return newsStore.save(article);
   }
 
   @Override
-  public List<News> getWeeklyNews() {
+  public List<NewsEntity> getWeeklyNews() {
     Date sevenDaysAgo = Date.from(Instant.now().minus(7, ChronoUnit.DAYS));
     return newsStore.findAll().stream()
         .filter(article -> article.getPublishDate() != null
             && !article.getPublishDate().before(sevenDaysAgo))
-        .sorted(Comparator.comparingInt(News::getViews).reversed())
+        .sorted(Comparator.comparingInt(NewsEntity::getViews).reversed())
         .limit(5)
         .toList();
   }
 
   @Override
-  public List<News> getFreshNews() {
+  public List<NewsEntity> getFreshNews() {
     return newsStore.findAll().stream()
       .filter(article-> !article.isFrontpage())
         .sorted(Comparator.comparing(
-            News::getPublishDate,
+            NewsEntity::getPublishDate,
             Comparator.nullsLast(Comparator.reverseOrder())))
         .limit(5)
         .toList();
   }
 
   @Override
-  public List<News> getPopularNews() {
+  public List<NewsEntity> getPopularNews() {
     return newsStore.findAll().stream()
-        .sorted(Comparator.comparingInt(News::getViews).reversed())
+        .sorted(Comparator.comparingInt(NewsEntity::getViews).reversed())
         .limit(5)
         .toList();
   }
 
   @Override
-  public List<News> getCategory(Category category) {
+  public List<NewsEntity> getCategory(Category category) {
     if (category == null) {
       return List.of();
     }
     return newsStore.findAll().stream()
         .filter(article -> article.getCategory() == category)
         .sorted(Comparator.comparing(
-            News::getPublishDate,
+            NewsEntity::getPublishDate,
             Comparator.nullsLast(Comparator.reverseOrder())))
         .toList();
   }
 
-  public List<News> getBySearch(String searchTerm) {
+  public List<NewsEntity> getBySearch(String searchTerm) {
     if (searchTerm == null || searchTerm.isBlank()) {
       return List.of();
     }
@@ -83,7 +83,7 @@ public class NewsService implements NewsUseCases {
             || contains(article.getIntroduction(), normalizedTerm)
             || contains(article.getContent(), normalizedTerm))
         .sorted(Comparator.comparing(
-            News::getPublishDate,
+            NewsEntity::getPublishDate,
             Comparator.nullsLast(Comparator.reverseOrder())))
         .toList();
   }

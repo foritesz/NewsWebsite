@@ -1,14 +1,14 @@
 package com.example.newsbackend.service;
 
-import com.example.newsbackend.model.Category;
-import com.example.newsbackend.model.News;
+import com.example.newsbackend.domain.Category;
+import com.example.newsbackend.entity.NewsEntity;
 
 import java.util.List;
 
 public interface NewsUseCases {
-  List<News> getWeeklyNews();
-  List<News> getFreshNews();
-  List<News> getPopularNews();
-  List<News> getCategory(Category category);
-  News addNews(News article);
+  List<NewsEntity> getWeeklyNews();
+  List<NewsEntity> getFreshNews();
+  List<NewsEntity> getPopularNews();
+  List<NewsEntity> getCategory(Category category);
+  NewsEntity addNews(NewsEntity article);
 }
