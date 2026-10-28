@@ -1,7 +1,7 @@
 package com.example.newsbackend.service;
 
-import com.example.newsbackend.model.Category;
-import com.example.newsbackend.model.News;
+import com.example.newsbackend.domain.Category;
+import com.example.newsbackend.entity.NewsEntity;
 import com.example.newsbackend.repository.NewsStore;
 import org.junit.jupiter.api.Test;
 
@@ -21,16 +21,16 @@ class NewsServiceTest {
 
   @Test
   void addNewsSavesArticleToListBackedRepository() {
-    List<News> articles = new ArrayList<>();
+    List<NewsEntity> articles = new ArrayList<>();
     NewsStore repository = mock(NewsStore.class);
     doAnswer(invocation -> {
-      News article = invocation.getArgument(0);
+      NewsEntity article = invocation.getArgument(0);
       articles.add(article);
       return article;
-    }).when(repository).save(any(News.class));
+    }).when(repository).save(any(NewsEntity.class));
     NewsService service = new NewsService(repository);
 
-    News article = new News();
+    NewsEntity article = new NewsEntity();
     article.setViews(0);
     article.setFrontpage(false);
     article.setCategory(Category.Entertainment);
@@ -41,7 +41,7 @@ class NewsServiceTest {
     article.setAuthor(1);
     article.setImageUrl(null);
 
-    News savedArticle = service.addNews(article);
+    NewsEntity savedArticle = service.addNews(article);
 
     assertSame(article, savedArticle);
     assertEquals(1, articles.size());
