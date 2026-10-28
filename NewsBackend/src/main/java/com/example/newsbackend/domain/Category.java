@@ -1,4 +1,4 @@
-package com.example.newsbackend.model;
+package com.example.newsbackend.domain;
 
 public enum Category {
   Politics,
