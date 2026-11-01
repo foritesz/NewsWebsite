@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -45,6 +46,28 @@ class NewsControllerTest {
         .andExpect(jsonPath("$[0].title").value("Teszt hír"));
 
     verify(newsUseCases).getWeeklyNews();
+  }
+
+  @Test
+  void getNewsByIdReturnsMatchingArticle() throws Exception {
+    when(newsUseCases.getNewsById(42)).thenReturn(Optional.of(articleWithId(42)));
+
+    mockMvc.perform(get("/api/news/42"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id").value(42))
+        .andExpect(jsonPath("$.title").value("Teszt hír"));
+
+    verify(newsUseCases).getNewsById(42);
+  }
+
+  @Test
+  void getNewsByIdReturnsNotFoundWhenArticleDoesNotExist() throws Exception {
+    when(newsUseCases.getNewsById(999)).thenReturn(Optional.empty());
+
+    mockMvc.perform(get("/api/news/999"))
+        .andExpect(status().isNotFound());
+
+    verify(newsUseCases).getNewsById(999);
   }
 
   @Test
@@ -122,6 +145,12 @@ class NewsControllerTest {
     article.setContent("Tartalom");
     article.setPublishDate(new Date());
     article.setAuthor(1);
+    return article;
+  }
+
+  private NewsEntity articleWithId(int id) {
+    NewsEntity article = article();
+    article.setId(id);
     return article;
   }
 }

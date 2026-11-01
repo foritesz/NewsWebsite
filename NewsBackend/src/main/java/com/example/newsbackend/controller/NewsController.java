@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -36,6 +37,22 @@ public class NewsController {
   public NewsController(NewsUseCases newsService, NewsMapper newsMapper) {
     this.newsService = newsService;
     this.newsMapper = newsMapper;
+  }
+
+  @GetMapping("/{id}")
+  @Operation(summary = "Get news by ID", description = "Returns the news article with the requested ID.")
+  @ApiResponses({
+    @ApiResponse(
+        responseCode = "200",
+        description = "News article found",
+        content = @Content(schema = @Schema(implementation = NewsDTO.class))
+    ),
+    @ApiResponse(responseCode = "404", description = "No news article exists with this ID")
+  })
+  public NewsDTO getNewsById(@PathVariable("id") int id) {
+    NewsEntity article = newsService.getNewsById(id)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "News article not found"));
+    return newsMapper.toResponse(article);
   }
 
   @GetMapping("/weekly")

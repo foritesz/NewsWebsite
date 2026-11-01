@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class NewsService implements NewsUseCases {
@@ -28,6 +29,11 @@ public class NewsService implements NewsUseCases {
   @Override
   public NewsEntity addNews(NewsEntity article) {
     return newsStore.save(article);
+  }
+
+  @Override
+  public Optional<NewsEntity> getNewsById(int id) {
+    return newsStore.findById(id);
   }
 
   @Override
