@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -18,10 +19,12 @@ public class SecurityConfig {
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
         .cors(cors -> {})
-        .authorizeHttpRequests(auth -> auth
+        .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
+        .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/news/**").permitAll()
-            .anyRequest().authenticated()
-        )
+            .anyRequest().authenticated())
+        .httpBasic(Customizer.withDefaults())
         .build();
   }
 
