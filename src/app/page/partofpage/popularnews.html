@@ -1,6 +1,6 @@
 <section class="toparticles" aria-labelledby="popular-title">
   <p id="popular-title" class="toparticles-heading">Legnépszerűbb cikkek</p>
-  @for (article of articles; track article.id) {
+  @for (article of (articles | async) ?? []; track article.id) {
     <a class="toparticle-row news-link" [routerLink]="['/news', article.id]">
       <div class="popular-image">
         <img [src]="article.image" [alt]="article.title" />

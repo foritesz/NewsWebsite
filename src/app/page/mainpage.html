@@ -20,7 +20,7 @@
 
   <section class="newarticles" aria-labelledby="fresh-title">
     <p id="fresh-title" class="weeklyheader">Friss hírek</p>
-    @for (article of freshNews; track article.id) {
+    @for (article of (freshNews | async) ?? []; track article.id) {
       <a class="newarticle1 news-link" [routerLink]="['/news', article.id]">
         <div class="newarticleimage1">
           <img [src]="article.image" [alt]="article.title" />

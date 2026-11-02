@@ -1,18 +1,19 @@
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Article } from '../../model/article';
-import { SortingService } from '../../service/sortingservice';
+import { NewsFeedService } from '../../service/newsfeedservice';
 
 @Component({
   selector: 'app-popularnews',
-  imports: [RouterLink],
+  imports: [RouterLink, AsyncPipe],
   templateUrl: './popularnews.html',
   styleUrl: './popularnews.css',
 })
 export class PopularNews {
-  readonly articles: Article[];
+  readonly articles: ReturnType<NewsFeedService['getPopularNews']>;
 
-  constructor(sortingService: SortingService) {
-    this.articles = sortingService.getMostPopularNews();
+  constructor(newsFeedService: NewsFeedService) {
+    this.articles = newsFeedService.getPopularNews();
   }
 }

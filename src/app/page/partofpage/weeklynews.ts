@@ -1,18 +1,19 @@
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Article } from '../../model/article';
-import { SortingService } from '../../service/sortingservice';
+import { NewsFeedService } from '../../service/newsfeedservice';
 
 @Component({
   selector: 'app-weeklynews',
-  imports: [RouterLink],
+  imports: [RouterLink, AsyncPipe],
   templateUrl: './weeklynews.html',
   styleUrl: './weeklynews.css',
 })
 export class WeeklyNews {
-  readonly articles: Article[];
+  readonly articles: ReturnType<NewsFeedService['getWeeklyNews']>;
 
-  constructor(sortingService: SortingService) {
-    this.articles = sortingService.getWeeklyNews();
+  constructor(newsFeedService: NewsFeedService) {
+    this.articles = newsFeedService.getWeeklyNews();
   }
 }
