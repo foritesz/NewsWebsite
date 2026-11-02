@@ -41,7 +41,7 @@ export class NewsEditorComponent {
         this.category = article.category;
         this.introduction = article.introduction;
         this.content = article.content;
-        this.image = article.image;
+        this.image = article.imageUrl;
         this.frontpage = article.frontpage;
       }
     }
@@ -65,7 +65,7 @@ export class NewsEditorComponent {
         category,
         introduction,
         content,
-        image,
+        imageUrl: image,
         frontpage: this.frontpage,
       };
       this.articles = this.articles.map(item => item.id === this.id ? article : item);
@@ -83,8 +83,8 @@ export class NewsEditorComponent {
         frontpage: this.frontpage,
         introduction,
         content,
-        image,
-        date: new Date(),
+        imageUrl: image,
+        publishDate: new Date(),
       }, this.articles.length);
 
       this.articles.push(article);
@@ -108,7 +108,7 @@ export class NewsEditorComponent {
       : {};
     const id = Number(record['id']);
     const views = Number(record['views']);
-    const rawDate = record['date'];
+    const rawDate = record['publishDate'] ?? record['date'];
     const parsedDate = rawDate ? new Date(String(rawDate)) : undefined;
     const title = typeof record['title'] === 'string'
       ? record['title'].trim()
@@ -119,13 +119,20 @@ export class NewsEditorComponent {
     return {
       id: Number.isFinite(id) && id > 0 ? id : index + 1,
       views: Number.isFinite(views) && views >= 0 ? views : 0,
+      author: typeof record['author'] === 'number'
+        ? record['author']
+        : typeof record['author'] === 'string' && Number.isFinite(Number(record['author']))
+          ? Number(record['author'])
+          : null,
       category: typeof record['category'] === 'string' ? record['category'].trim() : '',
       frontpage: record['frontpage'] === true,
       title,
       introduction: typeof record['introduction'] === 'string' ? record['introduction'].trim() : '',
       content: typeof record['content'] === 'string' ? record['content'].trim() : '',
-      image: typeof record['image'] === 'string' ? record['image'].trim() : '',
-      date: parsedDate && !Number.isNaN(parsedDate.getTime()) ? parsedDate : new Date(),
+      imageUrl: typeof record['imageUrl'] === 'string'
+        ? record['imageUrl'].trim()
+        : typeof record['image'] === 'string' ? record['image'].trim() : '',
+      publishDate: parsedDate && !Number.isNaN(parsedDate.getTime()) ? parsedDate : new Date(),
     };
   }
 }

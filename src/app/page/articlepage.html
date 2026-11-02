@@ -9,17 +9,17 @@
           <p class="news-lead">{{ currentArticle.introduction }}</p>
           <div class="news-meta">
             <span>{{ currentArticle.views }} megtekintés</span>
-            @if (currentArticle.date) {
-              <time [attr.datetime]="currentArticle.date | date: 'yyyy-MM-ddTHH:mm'">
-                {{ currentArticle.date | date: 'yyyy. MMMM d. HH:mm' }}
+            @if (currentArticle.publishDate) {
+              <time [attr.datetime]="currentArticle.publishDate | date: 'yyyy-MM-ddTHH:mm'">
+                {{ currentArticle.publishDate | date: 'yyyy. MMMM d. HH:mm' }}
               </time>
             }
           </div>
         </header>
 
-        @if (currentArticle.image) {
+        @if (currentArticle.imageUrl) {
           <figure class="news-hero">
-            <img [src]="currentArticle.image" [alt]="currentArticle.title" />
+            <img [src]="currentArticle.imageUrl" [alt]="currentArticle.title" />
             <figcaption>{{ currentArticle.title }}</figcaption>
           </figure>
         }

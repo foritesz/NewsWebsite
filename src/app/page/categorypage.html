@@ -7,7 +7,7 @@
       @for (article of articles; track article.id; let index = $index) {
         <a [class]="'category-article newarticle' + ((index % 3) + 1) + ' news-link'" [routerLink]="['/news', article.id]">
           <div class="newarticleimage1">
-            <img [src]="article.image" [alt]="article.title" />
+            <img [src]="article.imageUrl" [alt]="article.title" />
           </div>
           <div class="category-article-copy">
             <p class="article-category">{{ article.category }}</p>

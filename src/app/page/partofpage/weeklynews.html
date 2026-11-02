@@ -3,7 +3,7 @@
   @for (article of (articles | async) ?? []; track article.id) {
     <a class="toparticle-row news-link" [routerLink]="['/news', article.id]">
       <div>
-        <img [src]="article.image" [alt]="article.title" />
+        <img [src]="article.imageUrl" [alt]="article.title" />
       </div>
       <div class="toparticle-content">
         <h3>{{ article.title }}</h3>

@@ -33,14 +33,19 @@ export class ArticleService {
         this.articles = (parsedArticles as Article[]).map((article, index) => {
           const record = article as Article & { name?: unknown };
           const id = Number(record?.id);
-          const rawDate = record?.date;
+          const rawDate = record?.publishDate ?? (record as Article & { date?: unknown })?.date;
           const parsedDate = rawDate ? new Date(rawDate) : undefined;
 
           return {
             ...record,
+            imageUrl: typeof (record as Article & { image?: unknown })?.imageUrl === 'string'
+              ? record.imageUrl
+              : typeof (record as Article & { image?: unknown })?.image === 'string'
+                ? (record as Article & { image: string }).image
+                : '',
             id: Number.isFinite(id) && id > 0 ? id : index + 1,
             title: typeof record?.title === 'string' ? record.title : typeof record?.name === 'string' ? record.name : '',
-            date: parsedDate && !Number.isNaN(parsedDate.getTime()) ? parsedDate : new Date(),
+            publishDate: parsedDate && !Number.isNaN(parsedDate.getTime()) ? parsedDate : new Date(),
           };
         });
       }

@@ -10,7 +10,7 @@ export class SortingService {
   getFreshNews(): Article[] {
     const articles = this.articleService.getAll();
     return [...articles]
-      .sort((a, b) => (b.date?.getTime() || 0) - (a.date?.getTime() || 0))
+      .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
       .slice(0, 5);
   }
   getMostPopularNews(): Article[] {
