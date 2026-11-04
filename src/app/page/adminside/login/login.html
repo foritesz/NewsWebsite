@@ -1,0 +1,50 @@
+<main class="login-page">
+  <section class="login-card" aria-labelledby="login-title">
+    <a class="login-brand" routerLink="/" aria-label="Vissza a főoldalra">
+      <span class="brand-mark" aria-hidden="true">H</span>
+      <span>Hírportál <small>ADMIN</small></span>
+    </a>
+
+    <div class="login-heading">
+      <p class="eyebrow">ADMINISZTRÁCIÓ</p>
+      <h1 id="login-title">Bejelentkezés</h1>
+      <p>Lépj be a szerkesztői felület folytatásához.</p>
+    </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+      <label for="email">E-mail-cím</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="username"
+        placeholder="nev@hirportal.hu"
+        [(ngModel)]="email"
+        required
+        email
+      />
+
+      <label for="password">Jelszó</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Add meg a jelszavad"
+        [(ngModel)]="password"
+        required
+      />
+
+      @if (errorMessage) {
+        <p class="login-error" role="alert">{{ errorMessage }}</p>
+      }
+
+      <button type="submit" [disabled]="loginForm.invalid || isLoading">
+        {{ isLoading ? 'Bejelentkezés…' : 'Bejelentkezés' }}
+        <span aria-hidden="true">→</span>
+      </button>
+    </form>
+
+    <a class="back-link" routerLink="/">← Vissza a főoldalra</a>
+  </section>
+</main>
