@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface NewsUseCases {
   Optional<NewsEntity> getNewsById(int id);
+  boolean setFrontPage(int id, boolean frontpage);
   List<NewsEntity> getWeeklyNews();
   List<NewsEntity> getFreshNews();
   List<NewsEntity> getPopularNews();
