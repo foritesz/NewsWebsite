@@ -120,6 +120,25 @@ public class NewsController {
     return newsMapper.toResponse(newsService.addNews(article));
   }
 
+  @PostMapping("/{id}/frontpage")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @SecurityRequirement(name = "basicAuth")
+  @Operation(summary = "Set frontpage article", description = "Sets or clears the frontpage flag. Setting it to true clears the flag from other articles.")
+  @ApiResponses({
+      @ApiResponse(responseCode = "204", description = "Frontpage flag updated"),
+      @ApiResponse(responseCode = "404", description = "No news article exists with this ID"),
+      @ApiResponse(responseCode = "401", description = "Authentication is required")
+  })
+  public void setFrontPage(
+      @PathVariable("id") int id,
+      @Parameter(description = "Set true to feature this article, or false to remove it from the frontpage")
+      @RequestParam("frontpage") boolean frontpage
+  ) {
+    if (!newsService.setFrontPage(id, frontpage)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News article not found");
+    }
+  }
+
   private List<NewsDTO> toResponses(List<NewsEntity> articles) {
     return articles.stream().map(newsMapper::toResponse).toList();
   }

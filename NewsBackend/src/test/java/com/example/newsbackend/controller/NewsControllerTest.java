@@ -135,6 +135,26 @@ class NewsControllerTest {
     assertNull(articleCaptor.getValue().getImageUrl());
   }
 
+  @Test
+  void setFrontPagePostsTheRequestedArticleAndReturnsNoContent() throws Exception {
+    when(newsUseCases.setFrontPage(42, true)).thenReturn(true);
+
+    mockMvc.perform(post("/api/news/42/frontpage").param("frontpage", "true"))
+        .andExpect(status().isNoContent());
+
+    verify(newsUseCases).setFrontPage(42, true);
+  }
+
+  @Test
+  void setFrontPageReturnsNotFoundWhenArticleDoesNotExist() throws Exception {
+    when(newsUseCases.setFrontPage(999, true)).thenReturn(false);
+
+    mockMvc.perform(post("/api/news/999/frontpage").param("frontpage", "true"))
+        .andExpect(status().isNotFound());
+
+    verify(newsUseCases).setFrontPage(999, true);
+  }
+
   private NewsEntity article() {
     NewsEntity article = new NewsEntity();
     article.setViews(10);

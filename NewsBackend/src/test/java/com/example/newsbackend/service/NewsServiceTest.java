@@ -13,9 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class NewsServiceTest {
 
@@ -55,5 +58,38 @@ class NewsServiceTest {
     assertEquals(1, articles.get(0).getAuthor());
     assertNull(articles.get(0).getImageUrl());
     assertEquals(article.getPublishDate(), articles.get(0).getPublishDate());
+  }
+
+  @Test
+  void setFrontPageClearsThePreviousArticleAndSelectsTheRequestedOne() {
+    NewsStore store = mock(NewsStore.class);
+    NewsEntity previousFrontPage = new NewsEntity();
+    previousFrontPage.setId(1);
+    previousFrontPage.setFrontpage(true);
+    NewsEntity selectedArticle = new NewsEntity();
+    selectedArticle.setId(2);
+    selectedArticle.setFrontpage(false);
+
+    when(store.findById(2)).thenReturn(java.util.Optional.of(selectedArticle));
+    when(store.findAll()).thenReturn(List.of(previousFrontPage, selectedArticle));
+    when(store.save(any(NewsEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+    NewsService service = new NewsService(store);
+
+    boolean updated = service.setFrontPage(2, true);
+
+    assertTrue(updated);
+    assertFalse(previousFrontPage.isFrontpage());
+    assertTrue(selectedArticle.isFrontpage());
+    verify(store).save(previousFrontPage);
+    verify(store).save(selectedArticle);
+  }
+
+  @Test
+  void setFrontPageReturnsFalseWhenArticleDoesNotExist() {
+    NewsStore store = mock(NewsStore.class);
+    when(store.findById(999)).thenReturn(java.util.Optional.empty());
+    NewsService service = new NewsService(store);
+
+    assertFalse(service.setFrontPage(999, true));
   }
 }
