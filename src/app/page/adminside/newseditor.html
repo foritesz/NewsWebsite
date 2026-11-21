@@ -1,32 +1,51 @@
 <section class="article-editor">
   <h1>{{ id === null ? 'Új cikk' : 'Cikk szerkesztése' }}</h1>
   <form #articleForm="ngForm" (ngSubmit)="onSubmit()">
-    <label for="title">Cím</label>
-    <input id="title" name="title" [(ngModel)]="title" required />
+    <div class="title-category-row">
+      <div class="field">
+        <label for="title">Cím</label>
+        <input id="title" name="title" [(ngModel)]="title" required />
+      </div>
+      <div class="field">
+        <label for="category">Kategória</label>
+        <select id="category" name="category" [(ngModel)]="category" required>
+          <option value="" disabled>Válassz kategóriát</option>
+          @for (cat of categories; track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+      </div>
+    </div>
 
-    <label for="category">Kategória</label>
-    <select id="category" name="category" [(ngModel)]="category" required>
-      <option value="" disabled>Válassz kategóriát</option>
-      @for (cat of categories; track cat) {
-        <option [value]="cat">{{ cat }}</option>
-      }
-    </select>
+    <div class="field">
+      <label for="introduction">Bevezető</label>
+      <textarea id="introduction" name="introduction" [(ngModel)]="introduction" rows="3" required></textarea>
+    </div>
 
-    <label for="introduction">Bevezető</label>
-    <textarea id="introduction" name="introduction" [(ngModel)]="introduction" rows="3" required></textarea>
+    <div class="field">
+      <label for="content-editor">Cikk tartalma</label>
+      <div class="rich-editor">
+        <div class="rich-toolbar" role="toolbar" aria-label="Szövegformázás">
+          <button type="button" aria-label="Félkövér" title="Félkövér" (click)="formatText('bold')"><strong>B</strong></button>
+          <button type="button" aria-label="Dőlt" title="Dőlt" (click)="formatText('italic')"><em>I</em></button>
+          <button type="button" aria-label="Felsorolás" title="Felsorolás" (click)="formatText('insertUnorderedList')">• Lista</button>
+          <button type="button" aria-label="Számozott lista" title="Számozott lista" (click)="formatText('insertOrderedList')">1. Lista</button>
+        </div>
+        <div #contentEditor id="content-editor" class="rich-content" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Cikk tartalma" (input)="updateContent($event)"></div>
+      </div>
+    </div>
 
-    <label for="content">Cikk tartalma</label>
-    <textarea id="content" name="content" [(ngModel)]="content" rows="8" required></textarea>
-
-    <label for="image">Kép URL-je</label>
-    <input id="image" name="image" [(ngModel)]="image" type="url" required />
-
-    <label class="frontpage-option">
-      <input name="frontpage" [(ngModel)]="frontpage" type="checkbox" />
-      Jelenjen meg a címlapon
-    </label>
-
-    <button type="submit" [disabled]="articleForm.invalid">{{ id === null ? 'Cikk mentése' : 'Módosítások mentése' }}</button>
+    <div class="publishing-row">
+      <div class="field image-field">
+        <label for="image">Kép URL-je</label>
+        <input id="image" name="image" [(ngModel)]="image" type="url" required />
+      </div>
+      <label class="frontpage-option">
+        <input name="frontpage" [(ngModel)]="frontpage" type="checkbox" />
+        Jelenjen meg a címlapon
+      </label>
+      <button class="save-button" type="submit" [disabled]="articleForm.invalid">{{ id === null ? 'Cikk mentése' : 'Módosítások mentése' }}</button>
+    </div>
   </form>
 
   @if (submittedArticle) {

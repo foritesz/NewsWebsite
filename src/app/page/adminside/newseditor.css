@@ -1,0 +1,180 @@
+:host {
+  display: block;
+  width: 100%;
+  padding: 12px 16px 32px;
+}
+
+.article-editor {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 28px;
+  border: 1px solid #e3e8ed;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgb(24 39 56 / 7%);
+}
+
+h1 {
+  margin: 0 0 24px;
+  color: #17212b;
+  font-size: 1.6rem;
+}
+
+form,
+.field {
+  min-width: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.title-category-row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(180px, 1fr);
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+label {
+  color: #263746;
+  font-size: .92rem;
+  font-weight: 700;
+}
+
+input:not([type="checkbox"]),
+select,
+textarea,
+.rich-content {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #cbd5df;
+  border-radius: 7px;
+  background: #fff;
+  color: #17212b;
+  font: inherit;
+}
+
+input:not([type="checkbox"]),
+select,
+textarea {
+  padding: 10px 12px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.rich-content:focus {
+  border-color: #3977a8;
+  outline: 3px solid rgb(57 119 168 / 15%);
+}
+
+.rich-editor {
+  overflow: hidden;
+  border: 1px solid #cbd5df;
+  border-radius: 7px;
+}
+
+.rich-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 7px;
+  border-bottom: 1px solid #dce3e9;
+  background: #f5f7f9;
+}
+
+.rich-toolbar button {
+  min-height: 32px;
+  padding: 5px 9px;
+  border: 1px solid #d2dae1;
+  border-radius: 5px;
+  background: white;
+  color: #263746;
+  cursor: pointer;
+}
+
+.rich-toolbar button:hover {
+  background: #eaf1f6;
+}
+
+.rich-content {
+  min-height: 240px;
+  padding: 12px;
+  border: 0;
+  border-radius: 0;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.rich-content:empty::before {
+  color: #87939d;
+  content: "Írd ide a cikk szövegét…";
+  pointer-events: none;
+}
+
+.publishing-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto auto;
+  align-items: end;
+  gap: 14px;
+}
+
+.frontpage-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  white-space: nowrap;
+}
+
+.frontpage-option input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: #176b99;
+}
+
+.save-button {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 7px;
+  background: #176b99;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.save-button:hover:not(:disabled) {
+  background: #10577e;
+}
+
+.save-button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+[role="status"] {
+  margin: 18px 0 0;
+  color: #176b48;
+}
+
+@media (max-width: 620px) {
+  .article-editor { padding: 20px 16px; }
+  .title-category-row { grid-template-columns: 1fr; }
+  .publishing-row { grid-template-columns: 1fr; align-items: stretch; }
+  .frontpage-option { white-space: normal; }
+}

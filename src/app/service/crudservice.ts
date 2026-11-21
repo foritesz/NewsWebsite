@@ -7,7 +7,7 @@ import { Article } from '../model/article';
 })
 export class ArticleService {
   private readonly platformId = inject(PLATFORM_ID);
-  static readonly defaultCategories = ['Technology', 'Health', 'Travel', 'Lifestyle', 'Sports'];
+  static readonly defaultCategories = ['Technology', 'Health', 'Travel', 'Lifestyle', 'Sports', 'Politics'];
 
   articles: Article[] = [];
 
