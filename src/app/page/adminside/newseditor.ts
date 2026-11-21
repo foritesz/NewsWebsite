@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Article } from '../../model/article';
@@ -10,8 +10,10 @@ import { ArticleService } from '../../service/crudservice';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './newseditor.html',
+  styleUrl: './newseditor.css',
 })
-export class NewsEditorComponent {
+export class NewsEditorComponent implements AfterViewInit {
+  @ViewChild('contentEditor') private contentEditor?: ElementRef<HTMLDivElement>;
   title = '';
   category = 'Technology';
   introduction = '';
@@ -45,6 +47,20 @@ export class NewsEditorComponent {
         this.frontpage = article.frontpage;
       }
     }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.contentEditor) this.contentEditor.nativeElement.innerHTML = this.content;
+  }
+
+  updateContent(event: Event): void {
+    this.content = (event.target as HTMLDivElement).innerHTML;
+  }
+
+  formatText(command: string): void {
+    this.contentEditor?.nativeElement.focus();
+    document.execCommand(command, false);
+    if (this.contentEditor) this.content = this.contentEditor.nativeElement.innerHTML;
   }
 
   onSubmit(): void {
