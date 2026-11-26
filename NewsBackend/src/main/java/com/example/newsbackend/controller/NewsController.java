@@ -88,6 +88,12 @@ public class NewsController {
     return toResponses(newsService.getPopularNews());
   }
 
+  @GetMapping("/categories")
+  @Operation(summary = "Get available news categories")
+  public List<Category> getCategories() {
+    return List.of(Category.values());
+  }
+
   @GetMapping("/category")
   @Operation(summary = "Get news by category", description = "Returns articles in the requested category, newest first.")
   @ApiResponse(

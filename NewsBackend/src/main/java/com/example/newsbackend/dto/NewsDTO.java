@@ -8,12 +8,12 @@ import java.util.Date;
 public record NewsDTO(
     int id,
     int views,
-    Category category,
     boolean frontpage,
     String title,
     String introduction,
     String content,
     String imageUrl,
     Date publishDate,
-    Integer author
+    Integer author,
+    Category category
 ) {}

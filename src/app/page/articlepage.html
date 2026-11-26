@@ -42,6 +42,10 @@
         </footer>
       </article>
     </main>
+  } @else if (loading) {
+    <main class="news-article">
+      <p>A cikk betöltése...</p>
+    </main>
   } @else {
     <main class="news-article">
       <h1>A cikk nem található</h1>

@@ -8,12 +8,12 @@ import java.util.Date;
 
 public record CreateNewsRequest(
     int views,
-    @NotNull Category category,
     boolean frontpage,
     @NotBlank String title,
     @NotBlank String introduction,
     @NotBlank String content,
     String imageUrl,
     @NotNull Date publishDate,
-    @NotNull Integer author
+    @NotNull Integer author,
+    @NotNull Category category
 ) {}

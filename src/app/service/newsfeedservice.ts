@@ -6,7 +6,7 @@ import { Article } from '../model/article';
 
 @Injectable({ providedIn: 'root' })
 export class NewsFeedService {
-  private readonly apiUrl = 'http://localhost:8080/api/news';
+  private readonly apiUrl = 'http://localhost:8090/api/news';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -29,6 +29,12 @@ export class NewsFeedService {
 
   getPopularNews(): Observable<Article[]> {
     return this.http.get<Article[]>(`${this.apiUrl}/popular`).pipe(
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/categories`).pipe(
       catchError(error => this.handleError(error))
     );
   }
