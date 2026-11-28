@@ -1,13 +1,16 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Article } from '../model/article';
+import { NewsFeedService } from './newsfeedservice';
+import { Observable, catchError, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
   private readonly platformId = inject(PLATFORM_ID);
-  static readonly defaultCategories = ['Technology', 'Health', 'Travel', 'Lifestyle', 'Sports', 'Politics'];
+  private readonly newsFeedService = inject(NewsFeedService);
+  static readonly defaultCategories = ['Technology', 'Health', 'Travel', 'Lifestyle', 'Sport', 'Politics'];
 
   articles: Article[] = [];
 
@@ -56,26 +59,20 @@ export class ArticleService {
     return this.articles;
   }
 
-  getCategories(): string[] {
-    const storedCategories = this.getAll()
-      .map(article => typeof article.category === 'string' ? article.category.trim() : '')
-      .filter(Boolean);
-    return [...new Set([...ArticleService.defaultCategories, ...storedCategories])];
-  }
-
-<<<<<<< Updated upstream
-  getById(id: number): Article | undefined {
-    return this.getAll().find(article => Number(article.id) === Number(id));
-=======
-  getCategoryNews(category: string): Observable<Article[]> {
-    return this.newsFeedService.getNewsCategory(category).pipe(
-      map(articles => articles.map((article, index) => this.normalizeArticle(article, index))),
-      catchError(() => of(this.getAll().filter(article =>
-        article.category.trim().toLocaleLowerCase() === category.trim().toLocaleLowerCase()
-      )))
+  getCategories(): Observable<string[]> {
+    return this.newsFeedService.getCategories().pipe(
+      map(categories => [...new Set(categories.map(category => category.trim()).filter(Boolean))]),
+      catchError(() => {
+        const storedCategories = this.getAll()
+          .map(article => typeof article.category === 'string' ? article.category.trim() : '')
+          .filter(Boolean);
+        return of([...new Set([...ArticleService.defaultCategories, ...storedCategories])]);
+      })
     );
   }
 
+  getById(id: number): Article | undefined {
+    return this.getAll().find(article => Number(article.id) === Number(id));
   getById(id: number): Observable<Article | undefined> {
     return this.newsFeedService.getNewsId(id).pipe(
       map(article => this.normalizeArticle(article, 0)),
@@ -98,7 +95,6 @@ export class ArticleService {
       title: typeof record?.title === 'string' ? record.title : typeof record?.name === 'string' ? record.name : '',
       publishDate: parsedDate && !Number.isNaN(parsedDate.getTime()) ? parsedDate : new Date(),
     };
->>>>>>> Stashed changes
   }
 
   saveAll(articles: Article[]): void {

@@ -13,6 +13,7 @@ import { PopularNews } from './partofpage/popularnews';
 })
 export class ArticlePage {
   article?: Article;
+  loading = true;
   views: number = 0;
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -22,14 +23,21 @@ export class ArticlePage {
   constructor() {
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
-      this.article = Number.isFinite(id) ? this.articleService.getById(id) : undefined;
-      if (!this.article) return;
+      this.article = undefined;
+      this.loading = true;
+      if (!Number.isFinite(id) || id <= 0) {
+        this.loading = false;
+        return;
+      }
 
-      this.views = this.article.views + 1;
-      this.articleService.saveAll(this.articleService.getAll().map(article =>
-        Number(article.id) === id ? { ...article, views: this.views } : article,
-      ));
-      this.article = { ...this.article, views: this.views };
+      this.articleService.getById(id).subscribe(article => {
+        this.article = article;
+        this.loading = false;
+        if (!article) return;
+
+        this.views = article.views + 1;
+        this.article = { ...article, views: this.views };
+      });
     });
   }
 

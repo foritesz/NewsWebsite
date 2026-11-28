@@ -4,6 +4,7 @@ import com.example.newsbackend.entity.NewsEntity;
 import com.example.newsbackend.domain.Category;
 import com.example.newsbackend.repository.NewsStore;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -34,6 +35,28 @@ public class NewsService implements NewsUseCases {
   @Override
   public Optional<NewsEntity> getNewsById(int id) {
     return newsStore.findById(id);
+  }
+
+  @Override
+  @Transactional
+  public boolean setFrontPage(int id, boolean frontpage) {
+    Optional<NewsEntity> selectedArticle = newsStore.findById(id);
+    if (selectedArticle.isEmpty()) {
+      return false;
+    }
+
+    if (frontpage) {
+      newsStore.findAll().stream()
+          .filter(article -> article.isFrontpage() && article.getId() != id)
+          .forEach(article -> {
+            article.setFrontpage(false);
+            newsStore.save(article);
+          });
+    }
+
+    selectedArticle.get().setFrontpage(frontpage);
+    newsStore.save(selectedArticle.get());
+    return true;
   }
 
   @Override
@@ -94,6 +117,7 @@ public class NewsService implements NewsUseCases {
         .toList();
   }
 
+  //
   private boolean contains(String text, String normalizedTerm) {
     return text != null && text.toLowerCase(Locale.ROOT).contains(normalizedTerm);
   }

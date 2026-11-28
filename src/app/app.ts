@@ -52,9 +52,11 @@ import { ArticleService } from './service/crudservice';
   `
 })
 export class App {
-  readonly categories: string[];
+  categories: string[] = ArticleService.defaultCategories;
 
   constructor(articleService: ArticleService) {
-    this.categories = articleService.getCategories();
+    articleService.getCategories().subscribe(categories => {
+      this.categories = categories;
+    });
   }
 }

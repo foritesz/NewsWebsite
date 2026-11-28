@@ -14,7 +14,7 @@ public class NewsMapper {
     article.setTitle(request.title());
     article.setIntroduction(request.introduction());
     article.setContent(request.content());
-    article.setImageUrl(request.imageUrl());
+    article.setImageUrl(normalizeImageUrl(request.imageUrl()));
     article.setPublishDate(request.publishDate());
     article.setAuthor(request.author());
     return article;
@@ -24,14 +24,26 @@ public class NewsMapper {
     return new NewsDTO(
         article.getId(),
         article.getViews(),
-        article.getCategory(),
         article.isFrontpage(),
         article.getTitle(),
         article.getIntroduction(),
         article.getContent(),
-        article.getImageUrl(),
+        normalizeImageUrl(article.getImageUrl()),
         article.getPublishDate(),
-        article.getAuthor()
+        article.getAuthor(),
+        article.getCategory()
     );
+  }
+
+  /** Accepts either a plain URL or Markdown's [label](url) form. */
+  private String normalizeImageUrl(String value) {
+    if (value == null) {
+      return null;
+    }
+    String trimmed = value.trim();
+    if (trimmed.matches("^\\[[^]]+\\]\\(https?://[^)]+\\)$")) {
+      return trimmed.substring(trimmed.indexOf('(') + 1, trimmed.length() - 1);
+    }
+    return trimmed;
   }
 }
