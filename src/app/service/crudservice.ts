@@ -71,6 +71,8 @@ export class ArticleService {
     );
   }
 
+  getById(id: number): Article | undefined {
+    return this.getAll().find(article => Number(article.id) === Number(id));
   getById(id: number): Observable<Article | undefined> {
     return this.newsFeedService.getNewsId(id).pipe(
       map(article => this.normalizeArticle(article, 0)),

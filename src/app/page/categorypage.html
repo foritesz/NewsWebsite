@@ -2,7 +2,9 @@
 
   <main class="listofarticles" aria-labelledby="category-title">
     <h1 id="category-title">{{ category || 'Kategória' }}</h1>
-    @if (categoryExists) {
+    @if (loading) {
+      <p class="empty-state">Kategóriacikkek betöltése...</p>
+    } @else if (categoryExists) {
       <p class="category-result-count">{{ articles.length }} cikk a kategóriában</p>
       @for (article of articles; track article.id; let index = $index) {
         <a [class]="'category-article newarticle' + ((index % 3) + 1) + ' news-link'" [routerLink]="['/news', article.id]">
