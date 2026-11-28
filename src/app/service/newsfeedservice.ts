@@ -33,6 +33,23 @@ export class NewsFeedService {
     );
   }
 
+<<<<<<< Updated upstream
+=======
+  getNewsCategory(category: string): Observable<Article[]> {
+    return this.http.get<Article[]>(`${this.apiUrl}/category`, {
+      params: { category }
+    }).pipe(
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/categories`).pipe(
+      catchError(error => this.handleError(error))
+    );
+  }
+
+>>>>>>> Stashed changes
     private handleError(error: HttpErrorResponse): Observable<never> {
     let message = 'An unknown error occurred';
     if (error.error instanceof ErrorEvent) {

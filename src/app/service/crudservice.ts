@@ -63,8 +63,42 @@ export class ArticleService {
     return [...new Set([...ArticleService.defaultCategories, ...storedCategories])];
   }
 
+<<<<<<< Updated upstream
   getById(id: number): Article | undefined {
     return this.getAll().find(article => Number(article.id) === Number(id));
+=======
+  getCategoryNews(category: string): Observable<Article[]> {
+    return this.newsFeedService.getNewsCategory(category).pipe(
+      map(articles => articles.map((article, index) => this.normalizeArticle(article, index))),
+      catchError(() => of(this.getAll().filter(article =>
+        article.category.trim().toLocaleLowerCase() === category.trim().toLocaleLowerCase()
+      )))
+    );
+  }
+
+  getById(id: number): Observable<Article | undefined> {
+    return this.newsFeedService.getNewsId(id).pipe(
+      map(article => this.normalizeArticle(article, 0)),
+      catchError(() => of(this.getAll().find(article => Number(article.id) === Number(id))))
+    );
+  }
+
+  private normalizeArticle(article: Article, index: number): Article {
+    const record = article as Article & { name?: unknown; image?: unknown; date?: unknown };
+    const id = Number(record?.id);
+    const rawDate = record?.publishDate ?? record?.date;
+    const parsedDate = rawDate ? new Date(rawDate) : undefined;
+
+    return {
+      ...record,
+      imageUrl: typeof record?.imageUrl === 'string'
+        ? record.imageUrl
+        : typeof record?.image === 'string' ? record.image : '',
+      id: Number.isFinite(id) && id > 0 ? id : index + 1,
+      title: typeof record?.title === 'string' ? record.title : typeof record?.name === 'string' ? record.name : '',
+      publishDate: parsedDate && !Number.isNaN(parsedDate.getTime()) ? parsedDate : new Date(),
+    };
+>>>>>>> Stashed changes
   }
 
   saveAll(articles: Article[]): void {
